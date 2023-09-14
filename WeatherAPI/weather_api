@@ -1,1 +1,58 @@
+import requests
+
+
+class WeatherAPI:
+    def __init__(self, api_key):
+        # Initialize the WeatherAPI object with the provided API key.
+        self.api_key = api_key
+        self.base_url = "https://api.openweathermap.org/data/2.5/weather"
+
+    def get_temperature(self, city, country_code):
+        # Check if the city name is empty.
+        if not city:
+            print("Error: City name is empty.")
+            return None
+
+        # Check if the country code is empty.
+        if not country_code:
+            print("Error: Country code is empty.")
+            return None
+
+        # Construct the parameters for the API request.
+        params = {
+            'q': f"{city}, {country_code}",
+            'appid': self.api_key,
+            'limit': 1,
+            'units': 'metric'  # Request temperature data in Celsius
+        }
+
+        try:
+            # Send a GET request to the OpenWeatherMap API.
+            response = requests.get(self.base_url, params=params)
+
+            # Check for any HTTP request errors.
+            response.raise_for_status()
+
+            # Parse the JSON response data.
+            data = response.json()
+
+            # Extract the temperature from the JSON response.
+            temperature = data.get('main', {}).get('temp')
+
+            if temperature is not None:
+                # Return the temperature value in Celsius.
+                return temperature
+            else:
+                print("Error: Temperature data not found in the response.")
+                return None
+        except requests.exceptions.RequestException as e:
+            # Handle any network or request-related errors.
+            print(f'Error: {e}')
+            return None
+        except ValueError:
+            # Handle errors related to invalid JSON responses.
+            print("Error: Invalid JSON response")
+            return None
+
+
 
