@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create a Book</title>
+</head>
+<body>
+    <h1>Create a New Book</h1>
+    <form action="/books/create" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author">
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required>
+        <button type="submit">Create Book</button>
+    </form>
+</body>
+</html>
+
+
